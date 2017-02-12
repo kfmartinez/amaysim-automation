@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="Regression_Suite">
+
+	<listeners>
+      <listener class-name="org.uncommons.reportng.HTMLReporter"/>
+      <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
+ 	</listeners>
+
+	<test name="Test_MS006_Call_Forwarding">
+	  <classes>
+	  	<class name="com.kfm.amaysim_demo.scripts.my_amaysim.my_settings.Test_MS006_Call_Forwarding"/>
+	  </classes>
+	</test>
+
+</suite>
