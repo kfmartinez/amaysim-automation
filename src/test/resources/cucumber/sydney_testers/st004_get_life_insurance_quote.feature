@@ -50,7 +50,6 @@ Feature: ST004 - Get Life Insurance Quote
 		| age  | gender | occupation_category   | state              | email           |
 		| 25   | Male   | Low Risk	            | New South Wales	 | test@gmail.com  |
 
-
 	##
 	# Bugs:
 	#
@@ -59,7 +58,7 @@ Feature: ST004 - Get Life Insurance Quote
 	#				although there is an error message prompted - restrict input fields to valid regex
 	# 3. Age Field: should not accept obviously wrong age (greater than 150 or less than legal age 18)
 	# 4. Email Field: should only accept valid email addresses accepted as industry standard
-	###
+	##
 	@st004_03
 	Scenario Outline: The user inputs all the fields with invalid test data (id: quoteform)
 
@@ -69,14 +68,15 @@ Feature: ST004 - Get Life Insurance Quote
 
 		Examples:
 		| age       | gender | occupation_category   | state              | email            | error_messages                	|
-#		| null      | Male   | Low Risk	             | New South Wales	  | null  			 | The age is required. Numeric, 
-#																							   bigger than zero., 
-#																							   The email is required
-#		
 		| -1   		| Female | Medium Risk			 | Victoria			  | .!$@gmail@a.com  | age is invalid, email is invalid |
 		| 2000 		| Male   | High Risk             | Victoria           | test@gmail.com   | age is invalid                   |
 		| a    		| Male   | High Risk             | Victoria           | test@gmail.com   | age is invalid                   |
 		| 1994.0    | Male   | High Risk             | Victoria           | test@gmail.com   | (the user cannot type '.')       |
+#		| null      | Male   | Low Risk	             | New South Wales	  | null  			 | The age is required. Numeric, 
+#																							   bigger than zero., 
+#																							   The email is required
+#		
+	
 	##
 	# Bugs:
 	#
