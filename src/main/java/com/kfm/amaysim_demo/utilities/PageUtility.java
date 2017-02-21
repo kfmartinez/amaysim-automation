@@ -2,6 +2,7 @@ package com.kfm.amaysim_demo.utilities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -9,13 +10,33 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.google.common.base.Function;
 import com.kfm.amaysim_demo.constants.Constants;
 import com.kfm.amaysim_demo.exceptions.AutomationFrameworkException;
 
 public class PageUtility {
+    
+    private static WebElement getWebElementViaFluentWait(WebDriver driver, final By by) {
+
+        Wait<WebDriver> wait = new FluentWait<WebDriver>(driver).withTimeout(30, TimeUnit.SECONDS)
+                                                                .pollingEvery(1, TimeUnit.SECONDS)
+                                                                .ignoring(WebDriverException.class);
+        
+        WebElement webElement = wait.until(
+            new Function<WebDriver, WebElement>() {
+                public WebElement apply(WebDriver driver) {
+                    return driver.findElement(by);
+                }
+            }
+        );
+
+        return webElement;
+    }
     
     public static void validatePage(WebDriver driver, By by, String pageId) throws AutomationFrameworkException {
         WebDriverWait wait = new WebDriverWait(driver, Constants.TIMEOUT_SECS);
@@ -24,11 +45,13 @@ public class PageUtility {
     }
     
     public static void click(WebDriver driver, By by) throws AutomationFrameworkException {
-        click(driver, by, 0, false);
+//        click(driver, by, 0, false);
+        clickViaFluentWait(driver, by, false);
     }
     
     public static void clickViaJavascript(WebDriver driver, By by) throws AutomationFrameworkException {
-        click(driver, by, 0, true);
+//        click(driver, by, 0, true);
+        clickViaFluentWait(driver, by, true);
     }
     
     private static void click(WebDriver driver, By by, int counter, boolean isClickViaJavascript) throws AutomationFrameworkException {
@@ -67,6 +90,20 @@ public class PageUtility {
         else
         {
             throw new AutomationFrameworkException(errorMessage);
+        }
+    }
+    
+    private static void clickViaFluentWait(WebDriver driver, By by, boolean isClickViaJavascript) {
+        WebElement element = getWebElementViaFluentWait(driver, by);
+        
+        JavascriptExecutor jse = (JavascriptExecutor) driver;
+        jse.executeScript("arguments[0].scrollIntoView()", element);
+        
+        if(isClickViaJavascript) {
+            jse.executeScript("arguments[0].click();", element);
+        }
+        else {
+            element.click();
         }
     }
     

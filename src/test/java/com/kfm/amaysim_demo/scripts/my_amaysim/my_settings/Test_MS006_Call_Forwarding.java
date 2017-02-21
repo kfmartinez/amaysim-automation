@@ -28,7 +28,6 @@ public class Test_MS006_Call_Forwarding extends BaseTest {
     
     @BeforeSuite
     public void setup() {
-        
         initialize();
         myAmaysimLoginPage = new MyAmaysimLoginPage(getWebDriver());
         myAmaysimLoginPage.goTo(getTestRequirements().getUrl());
